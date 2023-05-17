@@ -16,8 +16,6 @@ public class RootDisplay {
             greenBoard.setBackground(Color.GREEN);
             greenBoard.setBounds(400, 0, CrossRoadModel.boardWidth*boardScale, CrossRoadModel.boardWidth*boardScale);
             Road road = new Road();
-            // road.setBounds(0, (CrossRoadModel.boardWidth*boardScale/2)-25, CrossRoadModel.boardWidth*boardScale, 50);
-            // greenBoard.add(road);
             road.setBounds(0, 0, CrossRoadModel.boardWidth*boardScale, CrossRoadModel.boardWidth*boardScale);
             greenBoard.add(road);
             frame.add(greenBoard);

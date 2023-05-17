@@ -12,7 +12,7 @@ public class Road extends JPanel {
     private int carAllSpace = RootDisplay.boardScale;
     private static final Color ROAD_COLOR = Color.DARK_GRAY;
     private static final Color STRAIGHT_COLOR = Color.BLUE;
-    private static final Color LEFT_COLOR = Color.ORANGE;
+    private static final Color LEFT_COLOR = Color.PINK;
     private static final Color RIGHT_COLOR = Color.YELLOW;
     private static final Color MARKING_COLOR = Color.WHITE;
     private static final Color RED_COLOR = Color.RED;

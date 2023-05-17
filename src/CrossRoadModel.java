@@ -3,8 +3,9 @@ import java.util.Random;
 
 public class CrossRoadModel {
     private int numberOfCars = 40;
+    private int MaxTimeReaction = 4; // max time reaction
+    private int MinTimeReaction = 0; // min time reaction
 
-    // private ArrayList<Car> listOfCars;
     private ArrayList<Car> AllCarsFromTop = new ArrayList<>(); // all cars
     private ArrayList<Car> AllCarsFromRight = new ArrayList<>(); // all cars
     private ArrayList<Car> AllCarsFromBottom = new ArrayList<>(); // all cars
@@ -21,10 +22,13 @@ public class CrossRoadModel {
 
         for (int i = 0; i < numberOfCars; i++) {
             Random random = new Random();
-            int randomDestination = random.nextInt(10); // reaction
-            int randomStartPosition = random.nextInt(4); // reaction
+            int randomDestination = random.nextInt(10);
+            int randomStartPosition = random.nextInt(4);
+            int randomReaction = random.nextInt(this.MaxTimeReaction) + this.MinTimeReaction; // reaction
+                                                                                              // between min and
+                                                                                              // max;
             Car car;
-            String destination;
+            String destination = "straight";
             if (randomDestination > 7) {
                 destination = "right";
             } else if (randomDestination > 5) {
@@ -45,6 +49,7 @@ public class CrossRoadModel {
                 car = new Car("left", destination);
                 this.AllCarsFromLeft.add(car);
             }
+            car.setReaction(randomReaction);
         }
     }
 
@@ -70,7 +75,7 @@ public class CrossRoadModel {
         for (int i = 0; i < boardWidth; i++) {
             for (int j = 0; j < boardWidth; j++) {
                 if (board[i][j] != null) {
-                    board[i][j].setPosition(j, i*20);
+                    board[i][j].setPosition(j, i * 20);
                     listOfCars.add(board[i][j]);
                 }
             }
@@ -85,7 +90,7 @@ public class CrossRoadModel {
                     board[20][18] = null;
                 } else if (board[20][18].getDestination() == "right" && board[21][19] == null) {
                     board[21][19] = board[20][18];
-                    board[21][19] = null;
+                    board[20][18] = null;
                 }
             }
             if (board[19][21] != null) {
@@ -127,7 +132,7 @@ public class CrossRoadModel {
                     board[18][19] = null;
                 } else if (board[18][19].getDestination() == "right" && board[19][18] == null) {
                     board[19][18] = board[18][19];
-                    board[19][21] = null;
+                    board[18][19] = null;
                 }
             }
 
@@ -266,17 +271,17 @@ public class CrossRoadModel {
 
     // public static void main(String[] args) {
 
-    //     CrossRoadModel first = new CrossRoadModel();
-    //     for (int i = 0; i < 20; i++) {
-    //         first.move();
-    //     }
-    //     for (int i = 0; i < 40; i++) {
-    //         if (i % 5 == 0) {
-    //             first.display();
-    //         }
-    //         first.move();
-    //     }
-    //     first.display();
+    // CrossRoadModel first = new CrossRoadModel();
+    // for (int i = 0; i < 20; i++) {
+    // first.move();
+    // }
+    // for (int i = 0; i < 40; i++) {
+    // if (i % 5 == 0) {
+    // first.display();
+    // }
+    // first.move();
+    // }
+    // first.display();
     // }
 
 }
