@@ -9,14 +9,16 @@ public class RootDisplay {
 
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Traffic Agent Based Model");
-            frame.setSize(MoveModel.boardWidth*boardScale+400, MoveModel.boardWidth*boardScale);
+            frame.setSize(CrossRoadModel.boardWidth*boardScale+400, CrossRoadModel.boardWidth*boardScale);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             JPanel greenBoard = new JPanel(null);
             greenBoard.setBackground(Color.GREEN);
-            greenBoard.setBounds(400, 0, MoveModel.boardWidth*boardScale, MoveModel.boardWidth*boardScale);
+            greenBoard.setBounds(400, 0, CrossRoadModel.boardWidth*boardScale, CrossRoadModel.boardWidth*boardScale);
             Road road = new Road();
-            road.setBounds(0, (MoveModel.boardWidth*boardScale/2)-25, MoveModel.boardWidth*boardScale, 50);
+            // road.setBounds(0, (CrossRoadModel.boardWidth*boardScale/2)-25, CrossRoadModel.boardWidth*boardScale, 50);
+            // greenBoard.add(road);
+            road.setBounds(0, 0, CrossRoadModel.boardWidth*boardScale, CrossRoadModel.boardWidth*boardScale);
             greenBoard.add(road);
             frame.add(greenBoard);
 

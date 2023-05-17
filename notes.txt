@@ -4,3 +4,5 @@ start - button
 stop
 timestep napis
 kompozycja z move i car
+
+2 modele świateł
