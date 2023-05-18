@@ -2,11 +2,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class CrossRoadModel {
-    private int numberOfCars = 40;
+    private int numberOfCars = 100;
     private int MaxTimeReaction = 4; // max time reaction
     private int MinTimeReaction = 0; // min time reaction
+//     private int numberOfWaves = 1; // all cars
+//     private int wavesTime = 1; // all cars
+    private int trafficLightsTime = 9; // traffic lights time change
 
-    private ArrayList<Car> AllCarsFromTop = new ArrayList<>(); // all cars
+private ArrayList<Car> AllCarsFromTop = new ArrayList<>(); // all cars
     private ArrayList<Car> AllCarsFromRight = new ArrayList<>(); // all cars
     private ArrayList<Car> AllCarsFromBottom = new ArrayList<>(); // all cars
     private ArrayList<Car> AllCarsFromLeft = new ArrayList<>(); // all cars
@@ -56,7 +59,7 @@ public class CrossRoadModel {
     public ArrayList<Car> move() {
         listOfCars.clear();
         // przesuwanie aut za sygnalizacją
-        if (timeStep % 5 == 0) {
+        if (timeStep % trafficLightsTime == 0) {
             trafficLight.changeLight();
         }
         PrzesuwanieAutZaSygnalizacja();
@@ -299,6 +302,9 @@ public class CrossRoadModel {
 
     }
 
+    public int getTrafficLight(){
+        return this.trafficLight.getState();
+    } 
     // public static void main(String[] args) {
 
     // CrossRoadModel first = new CrossRoadModel();

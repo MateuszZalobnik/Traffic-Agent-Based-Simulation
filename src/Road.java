@@ -57,6 +57,21 @@ public class Road extends JPanel {
         }
     }
 
+    private void DrawTrafficLight(Graphics g, int x, int y) {
+        // Draw traffic lights
+        int pointSize = 20;
+        // g.setColor(Color.RED);
+        g.fillOval(x - pointSize / 2, y - pointSize / 2, pointSize, pointSize);
+
+        // Add the letter "L" next to the point
+        // String letter = "L";
+        // int letterOffsetX = -3;
+        // int letterOffsetY = 5;
+        // g.setColor(Color.BLACK);
+        // g.drawString(letter, x + letterOffsetX, y + letterOffsetY);
+        g.fillOval(x - pointSize / 2, y - pointSize / 2, pointSize, pointSize);
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -91,6 +106,31 @@ public class Road extends JPanel {
                     break;
             }
             g.fillRect(x, y, carWidth, carHeight); // Adjust the size of the square as needed
+        }
+
+        g.setColor(RED_COLOR);
+        DrawTrafficLight(g, 370, 430);
+        DrawTrafficLight(g, 430, 370);
+        DrawTrafficLight(g, 350, 430);
+        DrawTrafficLight(g, 450, 370);
+        DrawTrafficLight(g, 370, 370);
+        DrawTrafficLight(g, 370, 350);
+        DrawTrafficLight(g, 430, 430);
+        DrawTrafficLight(g, 430, 450);
+        g.setColor(GREEN_COLOR);
+
+        if (firstModel.getTrafficLight() == 0) {
+            DrawTrafficLight(g, 370, 430);
+            DrawTrafficLight(g, 430, 370);
+        } else if (firstModel.getTrafficLight() == 1) {
+            DrawTrafficLight(g, 350, 430);
+            DrawTrafficLight(g, 450, 370);
+        } else if (firstModel.getTrafficLight() == 2) {
+            DrawTrafficLight(g, 370, 370);
+            DrawTrafficLight(g, 430, 430);
+        } else if (firstModel.getTrafficLight() == 3) {
+            DrawTrafficLight(g, 370, 350);
+            DrawTrafficLight(g, 430, 450);
         }
     }
 
