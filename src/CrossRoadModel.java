@@ -153,7 +153,6 @@ public class CrossRoadModel {
     }
 
     private void PrzesuwanieAutZaSygnalizacja() {
-
         for (int i = boardWidth - 1; i >= 21; i--) {
             if (board[20][i] != null) {
                 if (i == boardWidth - 1) {
@@ -198,28 +197,59 @@ public class CrossRoadModel {
         for (int i = 17; i >= 0; i--) {
             if (board[20][i] != null) {
                 if (board[20][i + 1] == null) {
-                    board[20][i + 1] = board[20][i];
-                    board[20][i] = null;
+                    board[20][i].setIsMoving(true);
+                    if (board[20][i].getCurrentReaction() == 0) {
+                        board[20][i + 1] = board[20][i];
+                        board[20][i] = null;
+                    } else {
+                        board[20][i].currentReactionDecrease();
+                    }
+
+                } else {
+                    board[20][i].setIsMoving(false);
                 }
             }
             if (board[i][19] != null) {
                 if (board[i + 1][19] == null) {
-                    board[i + 1][19] = board[i][19];
-                    board[i][19] = null;
+                    board[i][19].setIsMoving(true);
+                    if (board[i][19].getCurrentReaction() == 0) {
+                        board[i + 1][19] = board[i][19];
+                        board[i][19] = null;
+                    } else {
+                        board[i][19].currentReactionDecrease();
+                    }
+
+                } else {
+                    board[i][19].setIsMoving(false);
                 }
             }
         }
         for (int i = 22; i < boardWidth; i++) {
             if (board[19][i] != null) {
                 if (board[19][i - 1] == null) {
-                    board[19][i - 1] = board[19][i];
-                    board[19][i] = null;
+                    board[19][i].setIsMoving(true);
+                    if (board[19][i].getCurrentReaction() == 0) {
+                        board[19][i - 1] = board[19][i];
+                        board[19][i] = null;
+                    } else {
+                        board[19][i].currentReactionDecrease();
+                    }
+                } else {
+                    board[19][i].setIsMoving(false);
                 }
             }
             if (board[i][20] != null) {
                 if (board[i - 1][20] == null) {
-                    board[i - 1][20] = board[i][20];
-                    board[i][20] = null;
+                    board[i][20].setIsMoving(true);
+                    if (board[i][20].getCurrentReaction() == 0) {
+                        board[i - 1][20] = board[i][20];
+                        board[i][20] = null;
+                    } else {
+                        board[i][20].currentReactionDecrease();
+                    }
+
+                } else {
+                    board[i][20].setIsMoving(false);
                 }
             }
         }
