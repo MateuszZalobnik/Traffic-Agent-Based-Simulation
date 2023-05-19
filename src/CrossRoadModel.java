@@ -2,14 +2,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class CrossRoadModel {
-    private int numberOfCars = 100;
+    private int numberOfCars = 40;
     private int MaxTimeReaction = 4; // max time reaction
     private int MinTimeReaction = 0; // min time reaction
-//     private int numberOfWaves = 1; // all cars
-//     private int wavesTime = 1; // all cars
+    private int numberOfWaves = 2;
+    private int wavesTime = 100; // all cars
     private int trafficLightsTime = 9; // traffic lights time change
 
-private ArrayList<Car> AllCarsFromTop = new ArrayList<>(); // all cars
+    private ArrayList<Car> AllCarsFromTop = new ArrayList<>(); // all cars
     private ArrayList<Car> AllCarsFromRight = new ArrayList<>(); // all cars
     private ArrayList<Car> AllCarsFromBottom = new ArrayList<>(); // all cars
     private ArrayList<Car> AllCarsFromLeft = new ArrayList<>(); // all cars
@@ -23,6 +23,9 @@ private ArrayList<Car> AllCarsFromTop = new ArrayList<>(); // all cars
         this.trafficLight = new TrafficLight(0);
         this.board = new Car[boardWidth][boardWidth];
 
+    }
+
+    private void newWaveOfCars() {
         for (int i = 0; i < numberOfCars; i++) {
             Random random = new Random();
             int randomDestination = random.nextInt(10);
@@ -53,21 +56,27 @@ private ArrayList<Car> AllCarsFromTop = new ArrayList<>(); // all cars
                 this.AllCarsFromLeft.add(car);
             }
             car.setReaction(randomReaction);
+
         }
     }
 
     public ArrayList<Car> move() {
         listOfCars.clear();
-        // przesuwanie aut za sygnalizacją
+        if (numberOfWaves > 0 && timeStep % wavesTime == 0) {
+            newWaveOfCars();
+            this.numberOfWaves--;
+        }
         if (timeStep % trafficLightsTime == 0) {
             trafficLight.changeLight();
         }
-        PrzesuwanieAutZaSygnalizacja();
+        // przesuwanie aut za sygnalizacją
+        MoveCarBehindCrossroad();
 
-        WjazdNaSkrzyzowanie();
         // przesuwanie aut na skrzyżowaniu
+        CarOnCrossroad();
 
-        PrzesuwanieAutPrzedSygnalizacja();
+        // przesuwanie aut przed sygnalizacją
+        MoveCarBeforeCrossroad();
         newCarsOnBoard();
         addCarFromBoardToList();
         timeStep++;
@@ -85,7 +94,7 @@ private ArrayList<Car> AllCarsFromTop = new ArrayList<>(); // all cars
         }
     }
 
-    private void WjazdNaSkrzyzowanie() {
+    private void CarOnCrossroad() {
         if (trafficLight.getState() == 0) {
             if (board[20][18] != null) {
                 if (board[20][18].getDestination() == "straight" && board[20][21] == null) {
@@ -155,7 +164,7 @@ private ArrayList<Car> AllCarsFromTop = new ArrayList<>(); // all cars
         }
     }
 
-    private void PrzesuwanieAutZaSygnalizacja() {
+    private void MoveCarBehindCrossroad() {
         for (int i = boardWidth - 1; i >= 21; i--) {
             if (board[20][i] != null) {
                 if (i == boardWidth - 1) {
@@ -196,7 +205,7 @@ private ArrayList<Car> AllCarsFromTop = new ArrayList<>(); // all cars
 
     }
 
-    private void PrzesuwanieAutPrzedSygnalizacja() {
+    private void MoveCarBeforeCrossroad() {
         for (int i = 17; i >= 0; i--) {
             if (board[20][i] != null) {
                 if (board[20][i + 1] == null) {
@@ -277,6 +286,14 @@ private ArrayList<Car> AllCarsFromTop = new ArrayList<>(); // all cars
         }
     }
 
+    public boolean isEnd() {
+        if (numberOfWaves == 0 && AllCarsFromTop.size() == 0 && AllCarsFromRight.size() == 0
+                && AllCarsFromBottom.size() == 0 && AllCarsFromLeft.size() == 0 && listOfCars.size() == 0) {
+            return true;
+        }
+        return false;
+    }
+
     private void display() {
         System.out.println("---------------------------------------------");
         System.out.println(this.trafficLight.getState());
@@ -302,22 +319,7 @@ private ArrayList<Car> AllCarsFromTop = new ArrayList<>(); // all cars
 
     }
 
-    public int getTrafficLight(){
+    public int getTrafficLight() {
         return this.trafficLight.getState();
-    } 
-    // public static void main(String[] args) {
-
-    // CrossRoadModel first = new CrossRoadModel();
-    // for (int i = 0; i < 20; i++) {
-    // first.move();
-    // }
-    // for (int i = 0; i < 40; i++) {
-    // if (i % 5 == 0) {
-    // first.display();
-    // }
-    // first.move();
-    // }
-    // first.display();
-    // }
-
+    }
 }

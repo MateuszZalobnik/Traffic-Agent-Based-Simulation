@@ -25,14 +25,14 @@ public class Road extends JPanel {
 
     public Road() {
         firstModel = new CrossRoadModel();
-        timer = new Timer(100, new ActionListener() {
+        timer = new Timer(50, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 updatePoints();
                 repaint();
-                // if(firstModel.isEnd() && secondModel.isEnd()){
-                // timer.stop();
-                // }
+                if(firstModel.isEnd()){
+                timer.stop();
+                }
             }
         });
         timer.start();
