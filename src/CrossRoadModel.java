@@ -2,24 +2,31 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class CrossRoadModel {
-    private int numberOfCars = 40;
+    private int numberOfCars = 40; // number of cars in one wave
     private int MaxTimeReaction = 4; // max time reaction
     private int MinTimeReaction = 0; // min time reaction
-    private int numberOfWaves = 2;
-    private int wavesTime = 100; // all cars
+    private int numberOfWaves = 2; // number of waves
+    private int wavesTime = 100; // new wave time
     private int trafficLightsTime = 9; // traffic lights time change
 
-    private ArrayList<Car> AllCarsFromTop = new ArrayList<>(); // all cars
-    private ArrayList<Car> AllCarsFromRight = new ArrayList<>(); // all cars
-    private ArrayList<Car> AllCarsFromBottom = new ArrayList<>(); // all cars
-    private ArrayList<Car> AllCarsFromLeft = new ArrayList<>(); // all cars
+    private ArrayList<Car> AllCarsFromTop = new ArrayList<>(); // all cars from top not on board
+    private ArrayList<Car> AllCarsFromRight = new ArrayList<>(); // all cars from right not on board
+    private ArrayList<Car> AllCarsFromBottom = new ArrayList<>(); // all cars from bottom not on board
+    private ArrayList<Car> AllCarsFromLeft = new ArrayList<>(); // all cars from left not on board
     private ArrayList<Car> listOfCars = new ArrayList<>(); // cars on board
     private Car[][] board;
     private TrafficLight trafficLight;
     private int timeStep = 0;
     public static int boardWidth = 40;
 
-    CrossRoadModel() {
+    CrossRoadModel(int numberOfCars, int numberOfWaves, int wavesTime, int trafficLightsTime,
+            int MinTimeReaction, int MaxTimeReaction) {
+        this.numberOfCars = numberOfCars;
+        this.numberOfWaves = numberOfWaves;
+        this.wavesTime = wavesTime;
+        this.trafficLightsTime = trafficLightsTime;
+        this.MinTimeReaction = MinTimeReaction;
+        this.MaxTimeReaction = MaxTimeReaction;
         this.trafficLight = new TrafficLight(0);
         this.board = new Car[boardWidth][boardWidth];
 

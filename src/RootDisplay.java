@@ -5,23 +5,26 @@ import java.awt.Color;
 
 public class RootDisplay {
     public static int boardScale = 20;
-    public static void main(String[] args) {
+
+    public static void display() {
 
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Traffic Agent Based Model");
-            frame.setSize(CrossRoadModel.boardWidth*boardScale+400, CrossRoadModel.boardWidth*boardScale);
+            frame.setSize(CrossRoadModel.boardWidth * boardScale + 400, CrossRoadModel.boardWidth * boardScale);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             JPanel greenBoard = new JPanel(null);
             greenBoard.setBackground(Color.GREEN);
-            greenBoard.setBounds(400, 0, CrossRoadModel.boardWidth*boardScale, CrossRoadModel.boardWidth*boardScale);
+            greenBoard.setBounds(400, 0, CrossRoadModel.boardWidth * boardScale,
+                    CrossRoadModel.boardWidth * boardScale);
+
             Road road = new Road();
-            road.setBounds(0, 0, CrossRoadModel.boardWidth*boardScale, CrossRoadModel.boardWidth*boardScale);
+            road.setBounds(0, 0, CrossRoadModel.boardWidth * boardScale, CrossRoadModel.boardWidth * boardScale);
             greenBoard.add(road);
             frame.add(greenBoard);
-
             frame.setLayout(null);
             frame.setVisible(true);
+
         });
     }
 }
