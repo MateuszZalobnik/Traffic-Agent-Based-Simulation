@@ -1,6 +1,0 @@
-szybkość symulacji
-walidacja
-start - button
-stop
-timestep napis
-kompozycja z move i car

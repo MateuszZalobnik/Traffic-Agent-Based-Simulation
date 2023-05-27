@@ -36,16 +36,16 @@ public class CrossRoadModel {
     private void newWaveOfCars() {
         for (int i = 0; i < numberOfCars; i++) {
             Random random = new Random();
-            int randomDestination = random.nextInt(10);
+            int randomDestination = random.nextInt(100);
             int randomStartPosition = random.nextInt(4);
             int randomReaction = random.nextInt(this.MaxTimeReaction) + this.MinTimeReaction; // reaction
             // between min and
             // max;
             Car car;
             String destination = "straight";
-            if (randomDestination > 7) {
+            if (randomDestination >= 75) {
                 destination = "right";
-            } else if (randomDestination > 5) {
+            } else if (randomDestination >= 50) {
                 destination = "left";
             } else {
                 destination = "straight";
