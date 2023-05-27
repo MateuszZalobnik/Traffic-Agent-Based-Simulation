@@ -25,7 +25,7 @@ public class Road extends JPanel {
 
     public Road() {
         firstModel = new CrossRoadModel(40, 3, 50, 9, 2, 4);
-        timer = new Timer(50, new ActionListener() {
+        timer = new Timer(500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 updatePoints();
