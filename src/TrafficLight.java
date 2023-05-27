@@ -17,9 +17,9 @@ public class TrafficLight {
         this.state = state;
     }
 
-    public void changeLight(){
-        if(this.state == 3){
-            this.state= 0;
+    public void changeLight() {
+        if (this.state == 3) {
+            this.state = 0;
         } else {
             this.state++;
         }

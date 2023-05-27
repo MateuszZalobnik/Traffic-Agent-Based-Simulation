@@ -4,9 +4,10 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Slider{
-    private AtomicInteger value=new AtomicInteger(30);
+public class Slider {
+    private AtomicInteger value = new AtomicInteger(30);
     private JSlider slider;
+
     public Slider(int x, int y, int min, int max, int def, int minor, int major) {
         slider = new JSlider(JSlider.HORIZONTAL, min, max, def);
         slider.setBounds(x, y, 250, 50);
@@ -26,11 +27,12 @@ public class Slider{
             }
         });
     }
-    public int getValue(){
+
+    public int getValue() {
         return value.get();
     }
 
-    public void addPanel(JPanel panel){
+    public void addPanel(JPanel panel) {
         panel.add(slider);
     }
 }

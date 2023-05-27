@@ -5,6 +5,7 @@ public class CrossRoadModel {
     private int numberOfCars = 40; // number of cars in one wave
     private int MaxTimeReaction = 4; // max time reaction, 5 BEST
     private int MinTimeReaction = 0; // min time reaction, 1 BEST
+
     private int numberOfWaves = 2; // number of waves
     private int wavesTime = 100; // new wave time
     private int trafficLightsTime = 9; // traffic lights time change
@@ -19,7 +20,9 @@ public class CrossRoadModel {
     private int timeStep = 0;
     public static int boardWidth = 40;
 
-    CrossRoadModel(int numberOfCars, int numberOfWaves, int wavesTime,int MinTimeReaction, int MaxTimeReaction, int trafficLightsTime) {
+    CrossRoadModel(int numberOfCars, int numberOfWaves, int wavesTime, int MinTimeReaction, int MaxTimeReaction,
+            int trafficLightsTime) {
+
         this.numberOfCars = numberOfCars;
         this.numberOfWaves = numberOfWaves;
         this.wavesTime = wavesTime;
@@ -39,6 +42,7 @@ public class CrossRoadModel {
             int randomReaction = random.nextInt(this.MaxTimeReaction) + this.MinTimeReaction; // reaction
             // between min and
             // max;
+
             Car car;
             String destination = "straight";
             if (randomDestination > 7) {

@@ -4,3 +4,11 @@ start - button
 stop
 timestep napis
 kompozycja z move i car
+
+2 modele świateł
+
+samochody uprzywilejowane, samochody szybkie itd
+
+modele świateł
+
+//procent w prawo, lewo, prosto

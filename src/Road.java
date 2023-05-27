@@ -17,21 +17,23 @@ public class Road extends JPanel {
     private static final Color MARKING_COLOR = Color.WHITE;
     private static final Color RED_COLOR = Color.RED;
     private static final Color GREEN_COLOR = Color.GREEN;
-
     private ArrayList<Car> listOfCars = new ArrayList<>(); // cars on board
 
     private Timer timer;
 
     private CrossRoadModel firstModel;
 
-    public Road(int number_of_cars, int maxTimeReaction, int minTimeReaction, int numberOfWaves, int wavesTime, int lightsTime) {
-        firstModel = new CrossRoadModel(number_of_cars, numberOfWaves, wavesTime,minTimeReaction,maxTimeReaction,lightsTime);
+    public Road(int number_of_cars, int maxTimeReaction, int minTimeReaction, int numberOfWaves, int wavesTime,
+            int lightsTime) {
+        firstModel = new CrossRoadModel(number_of_cars, numberOfWaves, wavesTime, minTimeReaction, maxTimeReaction,
+                lightsTime);
         timer = new Timer(100, new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 updatePoints();
                 repaint();
-                if(firstModel.isEnd()){
+                if (firstModel.isEnd()) {
                     timer.stop();
                 }
             }
