@@ -5,6 +5,9 @@
  - [View](#view)  
  - [Docs[PL]](#docspl)
  - [Docs[ENG]](#docseng)  
+ - [Class diagram](#classdiagram)
+ - [Object diagram](#objectdiagram)
+
 
 ## View
 ![image](https://github.com/MateuszZalobnik/Traffic-Agent-Based-Simulation/assets/77732992/219e3135-2553-45ef-a34e-eef2cac162c5)
@@ -130,3 +133,10 @@ Label - auxiliary class for the GUI
 
 
 For the implementation of the GUI the library "Swing" was used.
+
+## Class diagram
+![image](https://github.com/MateuszZalobnik/Traffic-Agent-Based-Simulation/assets/77732992/9843e566-dc09-485c-8323-a42b6423d0a0)
+
+## Object diagram
+![image](https://github.com/MateuszZalobnik/Traffic-Agent-Based-Simulation/assets/77732992/9218e8a6-54be-492c-b5ad-4e8e82a73136)
+
