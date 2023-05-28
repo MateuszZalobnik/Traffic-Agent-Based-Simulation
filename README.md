@@ -5,8 +5,8 @@
  - [View](#view)  
  - [Docs[PL]](#docspl)
  - [Docs[ENG]](#docseng)  
- - [Class diagram](#classdiagram)
- - [Object diagram](#objectdiagram)
+ - [Class diagram](#class-diagram)
+ - [Object diagram](#object-diagram)
 
 
 ## View
