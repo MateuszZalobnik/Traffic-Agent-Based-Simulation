@@ -66,15 +66,8 @@ public class Road extends JPanel {
     private void DrawTrafficLight(Graphics g, int x, int y) {
         // Draw traffic lights
         int pointSize = 20;
-        // g.setColor(Color.RED);
         g.fillOval(x - pointSize / 2, y - pointSize / 2, pointSize, pointSize);
 
-        // Add the letter "L" next to the point
-        // String letter = "L";
-        // int letterOffsetX = -3;
-        // int letterOffsetY = 5;
-        // g.setColor(Color.BLACK);
-        // g.drawString(letter, x + letterOffsetX, y + letterOffsetY);
         g.fillOval(x - pointSize / 2, y - pointSize / 2, pointSize, pointSize);
     }
 

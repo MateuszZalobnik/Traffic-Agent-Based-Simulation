@@ -1,9 +1,9 @@
 public class TrafficLight {
     private int state;
-    // state = 0 oś = x prosto i prawo dla osi x
-    // state = 1 oś = x lewo
-    // state = 2 oś = y prosto i prawo dla osi y
-    // state = 3 oś = y lewo
+    // state = 0 oś = x straight i right dla osi x
+    // state = 1 oś = x left
+    // state = 2 oś = y straight i right dla osi y
+    // state = 3 oś = y left
 
     public TrafficLight(int state) {
         this.state = state;

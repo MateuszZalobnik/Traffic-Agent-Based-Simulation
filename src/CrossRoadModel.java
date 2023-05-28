@@ -77,13 +77,13 @@ public class CrossRoadModel {
         if (timeStep % trafficLightsTime == 0) {
             trafficLight.changeLight();
         }
-        // przesuwanie aut za sygnalizacją
+        // move car behind crossroad
         MoveCarBehindCrossroad();
 
-        // przesuwanie aut na skrzyżowaniu
+        // move car on crossroad
         CarOnCrossroad();
 
-        // przesuwanie aut przed sygnalizacją
+        // move car before crossroad
         MoveCarBeforeCrossroad();
         newCarsOnBoard();
         addCarFromBoardToList();
