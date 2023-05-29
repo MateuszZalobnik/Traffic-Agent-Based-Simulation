@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class CrossRoadModel {
+public class CrossRoadModel implements CrossRoadModelInterface {
     private int numberOfCars = 40; // number of cars in one wave
     private int MaxTimeReaction = 4; // max time reaction, 5 BEST
     private int MinTimeReaction = 0; // min time reaction, 1 BEST
