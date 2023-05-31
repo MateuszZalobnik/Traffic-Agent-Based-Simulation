@@ -107,35 +107,19 @@ public class Road extends JPanel {
             g.fillRect(x, y, carWidth, carHeight); // Adjust the size of the square as needed
         }
 
-        g.setColor(RED_COLOR);
-        DrawTrafficLight(g, 370, 430);
-        DrawTrafficLight(g, 430, 370);
-        DrawTrafficLight(g, 350, 430);
-        DrawTrafficLight(g, 450, 370);
-        DrawTrafficLight(g, 370, 370);
-        DrawTrafficLight(g, 370, 350);
-        DrawTrafficLight(g, 430, 430);
-        DrawTrafficLight(g, 430, 450);
-        g.setColor(GREEN_COLOR);
+        for (TrafficLight trafficLight : firstModel.getTrafficLightV2()) {
+            g.setColor(RED_COLOR);
+            if (trafficLight.getState()) {
+                g.setColor(GREEN_COLOR);
+            }
+            DrawTrafficLight(g, trafficLight.getPositionX(), trafficLight.getPositionY());
 
-        if (firstModel.getTrafficLight() == 0) {
-            DrawTrafficLight(g, 370, 430);
-            DrawTrafficLight(g, 430, 370);
-        } else if (firstModel.getTrafficLight() == 1) {
-            DrawTrafficLight(g, 350, 430);
-            DrawTrafficLight(g, 450, 370);
-        } else if (firstModel.getTrafficLight() == 2) {
-            DrawTrafficLight(g, 370, 370);
-            DrawTrafficLight(g, 430, 430);
-        } else if (firstModel.getTrafficLight() == 3) {
-            DrawTrafficLight(g, 370, 350);
-            DrawTrafficLight(g, 430, 450);
         }
 
         String letter = "Krok nr:" + firstModel.getTimeStep();
         Font font = new Font("Arial", Font.BOLD, 24);
         g.setFont(font);
-        g.setColor(Color.BLACK);
+        g.setColor(Color.WHITE);
         g.drawString(letter, 0, 700);
     }
 

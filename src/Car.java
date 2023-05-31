@@ -1,8 +1,6 @@
-public class Car {
+public class Car extends PixelsPositionObject {
     private String startPosition;
     private String destination;
-    private int x;
-    private int y;
     private int reaction = 0;
     private int currentReaction = 0;
     private boolean isMovig = true;
@@ -10,31 +8,18 @@ public class Car {
     Car(String startPosition, String destination) {
         this.destination = destination;
         if (startPosition == "top") {
-            this.x = 19;
-            this.y = 0;
+            this.PositionX = 19;
+            this.PositionY = 0;
         } else if (startPosition == "bottom") {
-            this.x = 20;
-            this.y = 40;
+            this.PositionX = 20;
+            this.PositionY = 40;
         } else if (startPosition == "left") {
-            this.x = 0;
-            this.y = 20;
+            this.PositionX = 0;
+            this.PositionY = 20;
         } else if (startPosition == "right") {
-            this.x = 40;
-            this.y = 19;
+            this.PositionX = 40;
+            this.PositionY = 19;
         }
-    }
-
-    public void setPosition(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public int getPositionX() {
-        return this.x;
-    }
-
-    public int getPositionY() {
-        return this.y;
     }
 
     public void setReaction(int r) {
@@ -60,7 +45,7 @@ public class Car {
         return this.isMovig;
     }
 
-    public String getDestination(){
+    public String getDestination() {
         return this.destination;
     }
 
