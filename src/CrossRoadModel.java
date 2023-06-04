@@ -14,8 +14,17 @@ public class CrossRoadModel implements CrossRoadModelInterface {
     private ArrayList<Car> AllCarsFromBottom = new ArrayList<>(); // all cars from bottom not on board
     private ArrayList<Car> AllCarsFromLeft = new ArrayList<>(); // all cars from left not on board
     private ArrayList<Car> listOfCars = new ArrayList<>(); // cars on board
+    private ArrayList<TrafficLight> listofLights = new ArrayList<>();
     private Car[][] board;
-    private TrafficLight trafficLight;
+
+    private TrafficLight RightXStraightAndRight;
+    private TrafficLight LeftXStraightAndRight;
+    private TrafficLight TopYStraightAndRight;
+    private TrafficLight BottomYStraightAndRight;
+    private TrafficLight RightXLeft;
+    private TrafficLight LeftXLeft;
+    private TrafficLight TopYLeft;
+    private TrafficLight BottomYLeft;
     private int timeStep = 0;
     public static int boardWidth = 40;
     public static int halfOfBoardWidth = boardWidth / 2;
@@ -28,9 +37,24 @@ public class CrossRoadModel implements CrossRoadModelInterface {
         this.trafficLightsTime = trafficLightsTime;
         this.MinTimeReaction = MinTimeReaction;
         this.MaxTimeReaction = MaxTimeReaction;
-        this.trafficLight = new TrafficLight(0);
-        this.board = new Car[boardWidth][boardWidth];
 
+        this.board = new Car[boardWidth][boardWidth];
+        RightXStraightAndRight = new TrafficLight(false, 430, 370);
+        LeftXStraightAndRight = new TrafficLight(false, 370, 430);
+        TopYStraightAndRight = new TrafficLight(false, 370, 370);
+        BottomYStraightAndRight = new TrafficLight(false, 430, 430);
+        RightXLeft = new TrafficLight(false, 450, 370);
+        LeftXLeft = new TrafficLight(false, 350, 430);
+        TopYLeft = new TrafficLight(false, 370, 350);
+        BottomYLeft = new TrafficLight(false, 430, 450);
+        listofLights.add(RightXStraightAndRight);
+        listofLights.add(LeftXStraightAndRight);
+        listofLights.add(TopYStraightAndRight);
+        listofLights.add(BottomYStraightAndRight);
+        listofLights.add(RightXLeft);
+        listofLights.add(LeftXLeft);
+        listofLights.add(TopYLeft);
+        listofLights.add(BottomYLeft);
     }
 
     private void newWaveOfCars() {
@@ -38,7 +62,10 @@ public class CrossRoadModel implements CrossRoadModelInterface {
             Random random = new Random();
             int randomDestination = random.nextInt(100);
             int randomStartPosition = random.nextInt(4);
-            int randomReaction = random.nextInt(this.MaxTimeReaction) + this.MinTimeReaction; // reaction
+            int randomReaction = 0;
+            if (MaxTimeReaction != 0) {
+                randomReaction = random.nextInt(this.MaxTimeReaction) + this.MinTimeReaction; // reaction
+            }
             // between min and
             // max;
             Car car;
@@ -68,6 +95,34 @@ public class CrossRoadModel implements CrossRoadModelInterface {
         }
     }
 
+    private void changeLight() {
+        if (RightXStraightAndRight.getState() == true) {
+            RightXStraightAndRight.setState(false);
+            LeftXStraightAndRight.setState(false);
+            LeftXLeft.setState(true);
+            RightXLeft.setState(true);
+        } else if (RightXLeft.getState() == true) {
+            RightXLeft.setState(false);
+            LeftXLeft.setState(false);
+            TopYStraightAndRight.setState(true);
+            BottomYStraightAndRight.setState(true);
+        } else if (TopYStraightAndRight.getState() == true) {
+            TopYStraightAndRight.setState(false);
+            BottomYStraightAndRight.setState(false);
+            TopYLeft.setState(true);
+            BottomYLeft.setState(true);
+        } else {
+            TopYStraightAndRight.setState(false);
+            BottomYStraightAndRight.setState(false);
+            TopYLeft.setState(false);
+            BottomYLeft.setState(false);
+            RightXLeft.setState(false);
+            LeftXLeft.setState(false);
+            RightXStraightAndRight.setState(true);
+            LeftXStraightAndRight.setState(true);
+        }
+    }
+
     public ArrayList<Car> move() {
         listOfCars.clear();
         if (numberOfWaves > 0 && timeStep % wavesTime == 0) {
@@ -75,7 +130,7 @@ public class CrossRoadModel implements CrossRoadModelInterface {
             this.numberOfWaves--;
         }
         if (timeStep % trafficLightsTime == 0) {
-            trafficLight.changeLight();
+            changeLight();
         }
         // move car behind crossroad
         MoveCarBehindCrossroad();
@@ -103,210 +158,116 @@ public class CrossRoadModel implements CrossRoadModelInterface {
     }
 
     private void CarOnCrossroad() {
-        if (trafficLight.getState() == 0) {
-            if (board[halfOfBoardWidth][halfOfBoardWidth - 2] != null) {
-                if (board[halfOfBoardWidth][halfOfBoardWidth - 2].getDestination() == "straight"
-                        && board[halfOfBoardWidth][halfOfBoardWidth + 1] == null) {
-                    board[halfOfBoardWidth][halfOfBoardWidth + 1] = board[halfOfBoardWidth][halfOfBoardWidth - 2];
-                    board[halfOfBoardWidth][halfOfBoardWidth - 2] = null;
-                } else if (board[halfOfBoardWidth][halfOfBoardWidth - 2].getDestination() == "right"
-                        && board[halfOfBoardWidth + 1][halfOfBoardWidth - 1] == null) {
-                    board[halfOfBoardWidth + 1][halfOfBoardWidth - 1] = board[halfOfBoardWidth][halfOfBoardWidth - 2];
-                    board[halfOfBoardWidth][halfOfBoardWidth - 2] = null;
-                }
-            }
-            if (board[halfOfBoardWidth - 1][halfOfBoardWidth + 1] != null) {
-                if (board[halfOfBoardWidth - 1][halfOfBoardWidth + 1].getDestination() == "straight"
-                        && board[halfOfBoardWidth - 1][halfOfBoardWidth - 2] == null) {
-                    board[halfOfBoardWidth - 1][halfOfBoardWidth - 2] = board[halfOfBoardWidth - 1][halfOfBoardWidth
-                            + 1];
-                    board[halfOfBoardWidth - 1][halfOfBoardWidth + 1] = null;
-                } else if (board[halfOfBoardWidth - 1][halfOfBoardWidth + 1].getDestination() == "right"
-                        && board[halfOfBoardWidth - 2][halfOfBoardWidth] == null) {
-                    board[halfOfBoardWidth - 2][halfOfBoardWidth] = board[halfOfBoardWidth - 1][halfOfBoardWidth + 1];
-                    board[halfOfBoardWidth - 1][halfOfBoardWidth + 1] = null;
-                }
+        if (RightXStraightAndRight.getState()) {
+            moveCarIfDestination(board, halfOfBoardWidth, halfOfBoardWidth - 2, halfOfBoardWidth, halfOfBoardWidth + 1,
+                    "straight");
+            moveCarIfDestination(board, halfOfBoardWidth, halfOfBoardWidth - 2, halfOfBoardWidth + 1,
+                    halfOfBoardWidth - 1, "right");
+            moveCarIfDestination(board, halfOfBoardWidth - 1, halfOfBoardWidth + 1, halfOfBoardWidth - 1,
+                    halfOfBoardWidth - 2, "straight");
+            moveCarIfDestination(board, halfOfBoardWidth - 1, halfOfBoardWidth + 1, halfOfBoardWidth - 2,
+                    halfOfBoardWidth, "right");
+        } else if (RightXLeft.getState()) {
+            moveCarIfDestination(board, halfOfBoardWidth, halfOfBoardWidth - 2, halfOfBoardWidth - 2, halfOfBoardWidth,
+                    "left");
+            moveCarIfDestination(board, halfOfBoardWidth - 1, halfOfBoardWidth + 1, halfOfBoardWidth + 1,
+                    halfOfBoardWidth - 1, "left");
+        } else if (TopYStraightAndRight.getState()) {
+            moveCarIfDestination(board, halfOfBoardWidth + 1, halfOfBoardWidth, halfOfBoardWidth - 2, halfOfBoardWidth,
+                    "straight");
+            moveCarIfDestination(board, halfOfBoardWidth + 1, halfOfBoardWidth, halfOfBoardWidth, halfOfBoardWidth + 1,
+                    "right");
+            moveCarIfDestination(board, halfOfBoardWidth - 2, halfOfBoardWidth - 1, halfOfBoardWidth + 1,
+                    halfOfBoardWidth - 1, "straight");
+            moveCarIfDestination(board, halfOfBoardWidth - 2, halfOfBoardWidth - 1, halfOfBoardWidth - 1,
+                    halfOfBoardWidth - 2, "right");
+        } else if (TopYLeft.getState()) {
+            moveCarIfDestination(board, halfOfBoardWidth - 2, halfOfBoardWidth - 1, halfOfBoardWidth,
+                    halfOfBoardWidth + 1, "left");
+            moveCarIfDestination(board, halfOfBoardWidth + 1, halfOfBoardWidth, halfOfBoardWidth - 1,
+                    halfOfBoardWidth - 2, "left");
+        }
+    }
+
+    private void moveCarIfDestination(Car[][] board, int fromX, int fromY, int toX, int toY, String destination) {
+        if (board[fromX][fromY] != null && board[fromX][fromY].getDestination().equals(destination)) {
+            if (toX < 0 || toY < 0 || toX >= board.length || toY >= board[0].length) {
+                board[fromX][fromY] = null;
+                return;
             }
 
-        } else if (trafficLight.getState() == 1) {
-            if (board[halfOfBoardWidth][halfOfBoardWidth - 2] != null) {
-                if (board[halfOfBoardWidth][halfOfBoardWidth - 2].getDestination() == "left"
-                        && board[halfOfBoardWidth - 2][halfOfBoardWidth] == null) {
-                    board[halfOfBoardWidth - 2][halfOfBoardWidth] = board[halfOfBoardWidth][halfOfBoardWidth - 2];
-                    board[halfOfBoardWidth][halfOfBoardWidth - 2] = null;
-                }
-            }
-            if (board[halfOfBoardWidth - 1][halfOfBoardWidth + 1] != null) {
-                if (board[halfOfBoardWidth - 1][halfOfBoardWidth + 1].getDestination() == "left"
-                        && board[halfOfBoardWidth + 1][halfOfBoardWidth - 1] == null) {
-                    board[halfOfBoardWidth + 1][halfOfBoardWidth - 1] = board[halfOfBoardWidth - 1][halfOfBoardWidth
-                            + 1];
-                    board[halfOfBoardWidth - 1][halfOfBoardWidth + 1] = null;
-                }
-            }
-        } else if (trafficLight.getState() == 2) {
-            if (board[halfOfBoardWidth + 1][halfOfBoardWidth] != null) {
-                if (board[halfOfBoardWidth + 1][halfOfBoardWidth].getDestination() == "straight"
-                        && board[halfOfBoardWidth - 2][halfOfBoardWidth] == null) {
-                    board[halfOfBoardWidth - 2][halfOfBoardWidth] = board[halfOfBoardWidth + 1][halfOfBoardWidth];
-                    board[halfOfBoardWidth + 1][halfOfBoardWidth] = null;
-                } else if (board[halfOfBoardWidth + 1][halfOfBoardWidth].getDestination() == "right"
-                        && board[halfOfBoardWidth][halfOfBoardWidth + 1] == null) {
-                    board[halfOfBoardWidth][halfOfBoardWidth + 1] = board[halfOfBoardWidth + 1][halfOfBoardWidth];
-                    board[halfOfBoardWidth + 1][halfOfBoardWidth] = null;
-                }
-            }
-            if (board[halfOfBoardWidth - 2][halfOfBoardWidth - 1] != null) {
-                if (board[halfOfBoardWidth - 2][halfOfBoardWidth - 1].getDestination() == "straight"
-                        && board[halfOfBoardWidth + 1][halfOfBoardWidth - 1] == null) {
-                    board[halfOfBoardWidth + 1][halfOfBoardWidth - 1] = board[halfOfBoardWidth - 2][halfOfBoardWidth
-                            - 1];
-                    board[halfOfBoardWidth - 2][halfOfBoardWidth - 1] = null;
-                } else if (board[halfOfBoardWidth - 2][halfOfBoardWidth - 1].getDestination() == "right"
-                        && board[halfOfBoardWidth - 1][halfOfBoardWidth - 2] == null) {
-                    board[halfOfBoardWidth - 1][halfOfBoardWidth - 2] = board[halfOfBoardWidth - 2][halfOfBoardWidth
-                            - 1];
-                    board[halfOfBoardWidth - 2][halfOfBoardWidth - 1] = null;
-                }
-            }
-
-        } else if (trafficLight.getState() == 3) {
-            if (board[halfOfBoardWidth - 2][halfOfBoardWidth - 1] != null) {
-                if (board[halfOfBoardWidth - 2][halfOfBoardWidth - 1].getDestination() == "left"
-                        && board[halfOfBoardWidth][halfOfBoardWidth + 1] == null) {
-                    board[halfOfBoardWidth][halfOfBoardWidth + 1] = board[halfOfBoardWidth - 2][halfOfBoardWidth - 1];
-                    board[halfOfBoardWidth - 2][halfOfBoardWidth - 1] = null;
-                }
-            }
-            if (board[halfOfBoardWidth + 1][halfOfBoardWidth] != null) {
-                if (board[halfOfBoardWidth + 1][halfOfBoardWidth].getDestination() == "left"
-                        && board[halfOfBoardWidth - 1][halfOfBoardWidth - 2] == null) {
-                    board[halfOfBoardWidth - 1][halfOfBoardWidth - 2] = board[halfOfBoardWidth + 1][halfOfBoardWidth];
-                    board[halfOfBoardWidth + 1][halfOfBoardWidth] = null;
-                }
+            if (board[toX][toY] == null) {
+                board[toX][toY] = board[fromX][fromY];
+                board[fromX][fromY] = null;
             }
         }
     }
 
     private void MoveCarBehindCrossroad() {
+        board[halfOfBoardWidth][boardWidth - 1] = null;
+        board[boardWidth - 1][halfOfBoardWidth - 1] = null;
+        board[0][halfOfBoardWidth] = null;
+        board[halfOfBoardWidth - 1][0] = null;
         for (int i = boardWidth - 1; i >= halfOfBoardWidth + 1; i--) {
-            if (board[halfOfBoardWidth][i] != null) {
-                if (i == boardWidth - 1) {
-                    board[halfOfBoardWidth][i] = null;
-                } else if (board[halfOfBoardWidth][i + 1] == null) {
-                    board[halfOfBoardWidth][i + 1] = board[halfOfBoardWidth][i];
-                    board[halfOfBoardWidth][i] = null;
-                }
-            }
-            if (board[i][halfOfBoardWidth - 1] != null) {
-                if (i == boardWidth - 1) {
-                    board[i][halfOfBoardWidth - 1] = null;
-                } else if (board[i + 1][halfOfBoardWidth - 1] == null) {
-                    board[i + 1][halfOfBoardWidth - 1] = board[i][halfOfBoardWidth - 1];
-                    board[i][halfOfBoardWidth - 1] = null;
-                }
-            }
+            moveCar(board, halfOfBoardWidth, i, halfOfBoardWidth, i + 1);
+            moveCar(board, i, halfOfBoardWidth - 1, i + 1, halfOfBoardWidth - 1);
         }
 
-        for (int i = 0; i <= boardWidth / 2 - 2; i++) {
-            if (board[halfOfBoardWidth - 1][i] != null) {
-                if (i == 0) {
-                    board[halfOfBoardWidth - 1][i] = null;
-                } else if (board[halfOfBoardWidth - 1][i - 1] == null) {
-                    board[halfOfBoardWidth - 1][i - 1] = board[halfOfBoardWidth - 1][i];
-                    board[halfOfBoardWidth - 1][i] = null;
-                }
-            }
-            if (board[i][halfOfBoardWidth] != null) {
-                if (i == 0) {
-                    board[i][halfOfBoardWidth] = null;
-                } else if (board[i - 1][halfOfBoardWidth] == null) {
-                    board[i - 1][halfOfBoardWidth] = board[i][halfOfBoardWidth];
-                    board[i][halfOfBoardWidth] = null;
-                }
+        for (int i = 0; i <= halfOfBoardWidth - 2; i++) {
+            moveCar(board, halfOfBoardWidth - 1, i, halfOfBoardWidth - 1, i - 1);
+            moveCar(board, i, halfOfBoardWidth, i - 1, halfOfBoardWidth);
+        }
+    }
+
+    private void moveCar(Car[][] board, int fromX, int fromY, int toX, int toY) {
+        if (board[fromX][fromY] != null) {
+            if (toX < 0 || toY < 0 || toX >= board.length || toY >= board[0].length)
+                return;
+            if (board[toX][toY] == null) {
+                board[toX][toY] = board[fromX][fromY];
+                board[fromX][fromY] = null;
             }
         }
-
     }
 
     private void MoveCarBeforeCrossroad() {
         for (int i = halfOfBoardWidth - 3; i >= 0; i--) {
-            if (board[halfOfBoardWidth][i] != null) {
-                if (board[halfOfBoardWidth][i + 1] == null) {
-                    board[halfOfBoardWidth][i].setIsMoving(true);
-                    if (board[halfOfBoardWidth][i].getCurrentReaction() == 0) {
-                        board[halfOfBoardWidth][i + 1] = board[halfOfBoardWidth][i];
-                        board[halfOfBoardWidth][i] = null;
-                    } else {
-                        board[halfOfBoardWidth][i].currentReactionDecrease();
-                    }
-
-                } else {
-                    board[halfOfBoardWidth][i].setIsMoving(false);
-                }
-            }
-            if (board[i][halfOfBoardWidth - 1] != null) {
-                if (board[i + 1][halfOfBoardWidth - 1] == null) {
-                    board[i][halfOfBoardWidth - 1].setIsMoving(true);
-                    if (board[i][halfOfBoardWidth - 1].getCurrentReaction() == 0) {
-                        board[i + 1][halfOfBoardWidth - 1] = board[i][halfOfBoardWidth - 1];
-                        board[i][halfOfBoardWidth - 1] = null;
-                    } else {
-                        board[i][halfOfBoardWidth - 1].currentReactionDecrease();
-                    }
-
-                } else {
-                    board[i][halfOfBoardWidth - 1].setIsMoving(false);
-                }
-            }
+            moveCarIfSpaceAvailable(board, halfOfBoardWidth, i, halfOfBoardWidth, i + 1);
+            moveCarIfSpaceAvailable(board, i, halfOfBoardWidth - 1, i + 1, halfOfBoardWidth - 1);
         }
         for (int i = halfOfBoardWidth + 2; i < boardWidth; i++) {
-            if (board[halfOfBoardWidth - 1][i] != null) {
-                if (board[halfOfBoardWidth - 1][i - 1] == null) {
-                    board[halfOfBoardWidth - 1][i].setIsMoving(true);
-                    if (board[halfOfBoardWidth - 1][i].getCurrentReaction() == 0) {
-                        board[halfOfBoardWidth - 1][i - 1] = board[halfOfBoardWidth - 1][i];
-                        board[halfOfBoardWidth - 1][i] = null;
-                    } else {
-                        board[halfOfBoardWidth - 1][i].currentReactionDecrease();
-                    }
-                } else {
-                    board[halfOfBoardWidth - 1][i].setIsMoving(false);
-                }
-            }
-            if (board[i][halfOfBoardWidth] != null) {
-                if (board[i - 1][halfOfBoardWidth] == null) {
-                    board[i][halfOfBoardWidth].setIsMoving(true);
-                    if (board[i][halfOfBoardWidth].getCurrentReaction() == 0) {
-                        board[i - 1][halfOfBoardWidth] = board[i][halfOfBoardWidth];
-                        board[i][halfOfBoardWidth] = null;
-                    } else {
-                        board[i][halfOfBoardWidth].currentReactionDecrease();
-                    }
+            moveCarIfSpaceAvailable(board, halfOfBoardWidth - 1, i, halfOfBoardWidth - 1, i - 1);
+            moveCarIfSpaceAvailable(board, i, halfOfBoardWidth, i - 1, halfOfBoardWidth);
+        }
+    }
 
+    private void moveCarIfSpaceAvailable(Car[][] board, int fromX, int fromY, int toX, int toY) {
+        if (board[fromX][fromY] != null) {
+            if (board[toX][toY] == null) {
+                board[fromX][fromY].setIsMoving(true);
+                if (board[fromX][fromY].getCurrentReaction() == 0) {
+                    board[toX][toY] = board[fromX][fromY];
+                    board[fromX][fromY] = null;
                 } else {
-                    board[i][halfOfBoardWidth].setIsMoving(false);
+                    board[fromX][fromY].currentReactionDecrease();
                 }
+            } else {
+                board[fromX][fromY].setIsMoving(false);
             }
         }
     }
 
-    private void newCarsOnBoard() {// new cars from list appear on road
-        if (AllCarsFromTop.size() > 0 && board[0][boardWidth / 2 - 1] == null) {
-            board[0][boardWidth / 2 - 1] = AllCarsFromTop.get(0);
-            AllCarsFromTop.remove(0);
-        }
-        if (AllCarsFromRight.size() > 0 && board[boardWidth / 2 - 1][boardWidth - 1] == null) {
-            board[boardWidth / 2 - 1][boardWidth - 1] = AllCarsFromRight.get(0);
-            AllCarsFromRight.remove(0);
-        }
-        if (AllCarsFromBottom.size() > 0 && board[boardWidth - 1][boardWidth / 2] == null) {
-            board[boardWidth - 1][boardWidth / 2] = AllCarsFromBottom.get(0);
-            AllCarsFromBottom.remove(0);
-        }
-        if (AllCarsFromLeft.size() > 0 && board[boardWidth / 2][0] == null) {
-            board[boardWidth / 2][0] = AllCarsFromLeft.get(0);
-            AllCarsFromLeft.remove(0);
+    private void newCarsOnBoard() {
+        placeCarIfSpaceAvailable(AllCarsFromTop, 0, boardWidth / 2 - 1);
+        placeCarIfSpaceAvailable(AllCarsFromRight, boardWidth / 2 - 1, boardWidth - 1);
+        placeCarIfSpaceAvailable(AllCarsFromBottom, boardWidth - 1, boardWidth / 2);
+        placeCarIfSpaceAvailable(AllCarsFromLeft, boardWidth / 2, 0);
+    }
+
+    private void placeCarIfSpaceAvailable(ArrayList<Car> carList, int row, int column) {
+        if (carList.size() > 0 && board[row][column] == null) {
+            board[row][column] = carList.get(0);
+            carList.remove(0);
         }
     }
 
@@ -318,8 +279,8 @@ public class CrossRoadModel implements CrossRoadModelInterface {
         return false;
     }
 
-    public int getTrafficLight() {
-        return this.trafficLight.getState();
+    public ArrayList<TrafficLight> getTrafficLightV2() {
+        return this.listofLights;
     }
 
     public int getTimeStep() {
