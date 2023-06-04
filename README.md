@@ -58,9 +58,11 @@ App - Główna klasa, w której startujemy program
 CrossRoadModel - klasa odpowiedzialna za cały model symulacji. Obiekt tej klasy posiada wszytkie informacje
 dotyczące modelu(położenie samochodów, stan świateł itd).
 
-Car - obiekty tej klasy posiadają informacje o położeniu, kierunku ruchu, czasu reakcji
+PixelsPositionObject - abstrakcyjna klasa, która jest odpowiedzialna za położenie obiektów na ekranie
 
-TrafficLight - obiekt tej klasy posiada informację o stanie świateł
+Car - rozszerza PixelsPositionObject - obiekty tej klasy posiadają informacje o początkowym położeniu, kierunku ruchu, czasu reakcji
+
+TrafficLight - rozszerza PixelsPositionObject - obiekt tej klasy posiada informację o stanie świateł
 
 RootDisplay - klasa odpowiedzialna za GUI
 
@@ -119,9 +121,11 @@ App - Main class in which we start the program
 CrossRoadModel - class responsible for the entire simulation model. An object of this class has all the information
 about the model (position of cars, status of lights, etc.).
 
-Car - objects of this class have information about the position, direction of movement, reaction time.
+PixelsPositionObject - an abstract class that is responsible for the position of objects on the screen
 
-TrafficLight - an object of this class has information about the state of the lights
+Car - extends PixelsPositionObject - objects of this class have information about the initial position, direction of movement, reaction time
+
+TrafficLight - extends PixelsPositionObject - an object of this class has information about the state of the lights
 
 RootDisplay - the class responsible for the GUI
 
